@@ -13,10 +13,12 @@
         }
         
         this.getArrayOfRandomNumbers = function() {
+            console.log("Generating numbers...");
             while(numberOfNumbers) {
                 numbers.push(getRandomInt(0, numberOfNumbers));
                 numberOfNumbers--;
             }
+            console.log("Finished generating ", numbers.length, " numbers!");
             return numbers;
         }
 
@@ -28,6 +30,7 @@
 
     var numbers = function(numberOfNumbers, type) {
         var numbers = new Numbers(numberOfNumbers);
+
         switch(type) {
             case "reverse":
                 // return numbers.getArrayOfReverseNumbers();
@@ -93,33 +96,41 @@
             var left = TopDownSplitMerge(arrayOfNumbers.slice(0, middleIndex));  
 
             // Split right side
-            var right = TopDownSplitMerge(arrayOfNumbers.slice(middleIndex, length-1));   
+            var right = TopDownSplitMerge(arrayOfNumbers.slice(middleIndex, length));   
 
             // Merge every back together
             return TopDownMerge(left, right);
         }
          
         function TopDownMerge(left, right) {
-            var results = []
+            var results = [], 
+                leftLength = left.length, 
+                rightLength = right.length
+                
 
-            while(left.length || right.length) {
-                // Check if both sides are NOT empty, if so, then just finish shifting the non-empty side
-                if(left.length && right.length) { 
-                    if(left[0] <= right[0]) {
-                       results.push(left.shift()) 
+            for(var leftIndex = 0, rightIndex = 0; leftIndex < leftLength || rightIndex < rightLength; ) {
+                // If left/right is empty, then keep pushing the other side
+                if(leftIndex < leftLength && rightIndex < rightLength) { 
+                    if(left[leftIndex] <= right[rightIndex]) {
+                       results.push(left[leftIndex]);
+                       leftIndex++; 
                     } else {
-                       results.push(right.shift()) 
+                       results.push(right[rightIndex]);
+                       rightIndex++;
                     }
-                } else if(left.length) {
-                   results.push(left.shift()) 
+                } else if(leftIndex < leftLength) {
+                   results.push(left[leftIndex]);
+                   leftIndex++; 
                 } else {
-                   results.push(right.shift()) 
+                   results.push(right[rightIndex]);
+                   rightIndex++;
                 }
                     
             }
 
             return results;
         }
+
 
         var start = new Date().getTime();
         var sortedNumbers = TopDownSplitMerge(numbersArray);
@@ -164,7 +175,7 @@
     MergeSortCommand.prototype = new SortCommand();
     MergeSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new MergeSort());
-        strategyContext.executeStrategy(numbers(1000000, "random"));
+        strategyContext.executeStrategy(numbers(10000000, "random"));
     };
 
     var InsertionSortCommand = function() {};
