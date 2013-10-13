@@ -1,21 +1,11 @@
 (function() {
-    /*
+
+    /***************************************************
         Factory Pattern
         Will return different orders of numbers depending on the caller
-    */
-    var thousandNumbers = function(type) {
-        var numbers = new Numbers(1000);
-        switch(type) {
-            case "reverse":
-                // return numbers.getArrayOfReverseNumbers();
-                break;
-            case "random":
-                return numbers.getArrayOfRandomNumbers();
-                break;
-        }
-    }
-
-    function Numbers(numberOfNumbers) { // constructor
+    ****************************************************/
+    function Numbers(numberOfNumbers) { 
+        // constructor
         var numbers = [];
 
         if(!numberOfNumbers) {
@@ -35,6 +25,18 @@
 
     }
 
+    var thousandNumbers = function(type) {
+        var numbers = new Numbers(1000);
+        switch(type) {
+            case "reverse":
+                // return numbers.getArrayOfReverseNumbers();
+                break;
+            case "random":
+                return numbers.getArrayOfRandomNumbers();
+                break;
+        }
+    }
+
 
 
     
@@ -42,7 +44,6 @@
         Command Pattern and Strategy Pattern
         This is used to run commands that sort numbers
     ****************************************************/
-
     
     /*
         Command Pattern: Receiver
