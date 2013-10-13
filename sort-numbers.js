@@ -25,8 +25,8 @@
 
     }
 
-    var thousandNumbers = function(type) {
-        var numbers = new Numbers(1000);
+    var hundredNumbers = function(type) {
+        var numbers = new Numbers(100);
         switch(type) {
             case "reverse":
                 // return numbers.getArrayOfReverseNumbers();
@@ -79,9 +79,55 @@
 
     var MergeSort = function() {}
     MergeSort.prototype = new StrategyInterface();
-    MergeSort.prototype.sort = function(numbersArray, beginning, end, tempArray) {
-        // Implement Algorithm
-        console.log("MergeSort: ", numbersArray.length);
+    MergeSort.prototype.sort = function(numbersArray) {
+        console.log(numbersArray);
+
+        function TopDownSplitMerge(arrayOfNumbers) {     
+            var length = arrayOfNumbers.length
+            var middleIndex = parseInt(length/2);
+
+            if(length <= 1) {
+                return arrayOfNumbers;
+            }                       
+
+            // Split left side
+            var left = TopDownSplitMerge(arrayOfNumbers.slice(0, middleIndex));  
+
+            // Split right side
+            var right = TopDownSplitMerge(arrayOfNumbers.slice(middleIndex, length-1));   
+
+            // Merge every back together
+            return TopDownMerge(left, right);
+        }
+         
+        function TopDownMerge(left, right) {
+            var results = []
+
+            while(left.length || right.length) {
+                // Check if both sides are NOT empty, if so, then just finish shifting the non-empty side
+                if(left.length && right.length) { 
+                    if(left[0] <= right[0]) {
+                       results.push(left.shift()) 
+                    } else {
+                       results.push(right.shift()) 
+                    }
+                } else if(left.length) {
+                   results.push(left.shift()) 
+                } else {
+                   results.push(right.shift()) 
+                }
+                    
+            }
+
+            return results;
+        }
+
+        var start = new Date().getTime();
+        var sortedNumbers = TopDownSplitMerge(numbersArray);
+        var end = new Date().getTime();
+        console.log(sortedNumbers);
+
+        console.log("MergeSort: ", end - start, " ms");
     };
 
     var InsertionSort = function() {}
@@ -116,36 +162,26 @@
     var SortCommand = function() {};
     SortCommand.prototype = new CommandInterface();
 
-    var MergeSortCommand = function() {
-        // Constructor
-        this.numbers = thousandNumbers("random");
-    };
+    var MergeSortCommand = function() {};
     MergeSortCommand.prototype = new SortCommand();
     MergeSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new MergeSort());
-        strategyContext.executeStrategy(this.numbers);
+        strategyContext.executeStrategy(hundredNumbers("random"));
     };
 
-    var InsertionSortCommand = function() {
-        // Constructor
-        this.numbers = thousandNumbers("random");
-    };
+    var InsertionSortCommand = function() {};
     InsertionSortCommand.prototype = new SortCommand();
     InsertionSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new InsertionSort());
-        strategyContext.executeStrategy(this.numbers);
+        strategyContext.executeStrategy(hundredNumbers("random"));
     };
 
-    var SelectionSortCommand = function() {
-        // Constructor
-        this.numbers = thousandNumbers("random");
-    };
+    var SelectionSortCommand = function() {};
     SelectionSortCommand.prototype = new SortCommand();
     SelectionSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new SelectionSort());
-        strategyContext.executeStrategy(this.numbers);
-    };
-
+        strategyContext.executeStrategy(hundredNumbers("random"));
+    };    
 
     /*
         Run     
@@ -154,4 +190,6 @@
     sortCommandInvoker.storeAndExecute(new MergeSortCommand());
     sortCommandInvoker.storeAndExecute(new InsertionSortCommand());
     sortCommandInvoker.storeAndExecute(new SelectionSortCommand());
+
+
 })();
