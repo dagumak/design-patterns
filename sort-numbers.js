@@ -1,5 +1,8 @@
 (function() {
-    // Factory to return a random, a few unique, reversed, etc...
+    /*
+        Factory Pattern
+        Will return different orders of numbers depending on the caller
+    */
     var thousandNumbers = function(type) {
         var numbers = new Numbers(1000);
         switch(type) {
@@ -12,7 +15,6 @@
         }
     }
 
-    // Class for Numbers
     function Numbers(numberOfNumbers) { // constructor
         var numbers = [];
 
@@ -35,9 +37,16 @@
 
 
 
-    // Command pattern to invoke algorithms
+    
+    /***************************************************
+        Command Pattern and Strategy Pattern
+        This is used to run commands that sort numbers
+    ****************************************************/
 
-    // Invoker
+    
+    /*
+        Command Pattern: Receiver
+    */
     function SortCommandInvoker() {
         var arrayOfCommands = []
         this.storeAndExecute = function(command) {
@@ -49,55 +58,99 @@
         }
     }
 
+    /*
+        Command Pattern: Receiver and Strategy Pattern        
+        This is the received for the command pattern which is abstracted out further to use the 
+        strategy pattern
+    */
+    function StrategyInterface() {}
+    StrategyInterface.prototype.sort = function(numbers) { 
+        // The subclass will shadow this function thus emulating an interface behaviour
+        throw "Must implement algorithm function";
+    }       
 
-    // Receiver
+    function StrategyContext(strategy) {
+        this.strategy = strategy;    
+    }
+    StrategyContext.prototype.executeStrategy = function(numbers) {
+        this.strategy.sort(numbers);
+    };
 
+    var MergeSort = function() {}
+    MergeSort.prototype = new StrategyInterface();
+    MergeSort.prototype.sort = function(numbersArray, beginning, end, tempArray) {
+        // Implement Algorithm
+        console.log("MergeSort: ", numbersArray.length);
+    };
 
-    // Command Interface
+    var InsertionSort = function() {}
+    InsertionSort.prototype = new StrategyInterface();
+    InsertionSort.prototype.sort = function(numbersArray, beginning, end, tempArray) {
+        // Implement Algorithm
+        console.log("InsertionSort: ", numbersArray.length);
+    };
+
+    var SelectionSort = function() {}
+    SelectionSort.prototype = new StrategyInterface();
+    SelectionSort.prototype.sort = function(numbersArray, beginning, end, tempArray) {
+        // Implement Algorithm
+        console.log("SelectionSort: ", numbersArray.length);
+    };
+
+    /*
+        Command Pattern: Command Interface
+        Used to enforce the implementation of execute. Also, used for tagging objects; The invoker 
+        will only run commands that are an instance of this interface.
+    */
     function CommandInterface() {}
     CommandInterface.prototype.execute = function() {
         throw "Must implement the execute function";
-    }
+    };
 
-    // Concrete Commands
-    var SortCommand = function() {}
+    /*
+        Command Pattern: Concrete Commands
+        Used to enforce the implementation of execute. Also, used for tagging objects; The invoker 
+        will only run commands that are an instance of this interface.
+    */
+    var SortCommand = function() {};
     SortCommand.prototype = new CommandInterface();
 
     var MergeSortCommand = function() {
         // Constructor
         this.numbers = thousandNumbers("random");
-    }
-
+    };
     MergeSortCommand.prototype = new SortCommand();
     MergeSortCommand.prototype.execute = function() {
-        // execute the number sorting
-        console.log("MergeSort: ", this.numbers.length);
-    }
+        var strategyContext = new StrategyContext(new MergeSort());
+        strategyContext.executeStrategy(this.numbers);
+    };
 
     var InsertionSortCommand = function() {
         // Constructor
         this.numbers = thousandNumbers("random");
-    }
-
+    };
     InsertionSortCommand.prototype = new SortCommand();
     InsertionSortCommand.prototype.execute = function() {
-        // execute the number sorting
-        console.log("InsertionSort: ", this.numbers.length);
-    }
+        var strategyContext = new StrategyContext(new InsertionSort());
+        strategyContext.executeStrategy(this.numbers);
+    };
 
     var SelectionSortCommand = function() {
         // Constructor
         this.numbers = thousandNumbers("random");
-    }
+    };
     SelectionSortCommand.prototype = new SortCommand();
     SelectionSortCommand.prototype.execute = function() {
-        // execute the number sorting
-        console.log("SelectionSort: ", this.numbers.length);
-    }
+        var strategyContext = new StrategyContext(new SelectionSort());
+        strategyContext.executeStrategy(this.numbers);
+    };
 
+
+    /*
+        Run     
+    */
     var sortCommandInvoker = new SortCommandInvoker();
     sortCommandInvoker.storeAndExecute(new MergeSortCommand());
     sortCommandInvoker.storeAndExecute(new InsertionSortCommand());
     sortCommandInvoker.storeAndExecute(new SelectionSortCommand());
 })();
-
