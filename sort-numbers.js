@@ -13,8 +13,9 @@
         }
         
         this.getArrayOfRandomNumbers = function() {
-            for(var x = 0; x < numberOfNumbers; x++) {
+            while(numberOfNumbers) {
                 numbers.push(getRandomInt(0, numberOfNumbers));
+                numberOfNumbers--;
             }
             return numbers;
         }
@@ -163,7 +164,7 @@
     MergeSortCommand.prototype = new SortCommand();
     MergeSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new MergeSort());
-        strategyContext.executeStrategy(numbers(1000, "random"));
+        strategyContext.executeStrategy(numbers(1000000, "random"));
     };
 
     var InsertionSortCommand = function() {};
