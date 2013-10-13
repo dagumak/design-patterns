@@ -25,8 +25,8 @@
 
     }
 
-    var hundredNumbers = function(type) {
-        var numbers = new Numbers(100);
+    var numbers = function(numberOfNumbers, type) {
+        var numbers = new Numbers(numberOfNumbers);
         switch(type) {
             case "reverse":
                 // return numbers.getArrayOfReverseNumbers();
@@ -80,8 +80,6 @@
     var MergeSort = function() {}
     MergeSort.prototype = new StrategyInterface();
     MergeSort.prototype.sort = function(numbersArray) {
-        console.log(numbersArray);
-
         function TopDownSplitMerge(arrayOfNumbers) {     
             var length = arrayOfNumbers.length
             var middleIndex = parseInt(length/2);
@@ -125,7 +123,6 @@
         var start = new Date().getTime();
         var sortedNumbers = TopDownSplitMerge(numbersArray);
         var end = new Date().getTime();
-        console.log(sortedNumbers);
 
         console.log("MergeSort: ", end - start, " ms");
     };
@@ -166,21 +163,21 @@
     MergeSortCommand.prototype = new SortCommand();
     MergeSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new MergeSort());
-        strategyContext.executeStrategy(hundredNumbers("random"));
+        strategyContext.executeStrategy(numbers(1000, "random"));
     };
 
     var InsertionSortCommand = function() {};
     InsertionSortCommand.prototype = new SortCommand();
     InsertionSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new InsertionSort());
-        strategyContext.executeStrategy(hundredNumbers("random"));
+        strategyContext.executeStrategy(numbers(1000, "random"));
     };
 
     var SelectionSortCommand = function() {};
     SelectionSortCommand.prototype = new SortCommand();
     SelectionSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new SelectionSort());
-        strategyContext.executeStrategy(hundredNumbers("random"));
+        strategyContext.executeStrategy(numbers(1000, "random"));
     };    
 
     /*
