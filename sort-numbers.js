@@ -131,7 +131,6 @@
             return results;
         }
 
-
         var start = new Date().getTime();
         var sortedNumbers = TopDownSplitMerge(numbersArray);
         var end = new Date().getTime();
@@ -142,8 +141,26 @@
     var InsertionSort = function() {}
     InsertionSort.prototype = new StrategyInterface();
     InsertionSort.prototype.sort = function(numbersArray, beginning, end, tempArray) {
-        // Implement Algorithm
-        console.log("InsertionSort: ", numbersArray.length);
+        function InsertionSort(arrayOfNumbers) {
+            for(var x = 0; x < arrayOfNumbers.length; x++) {
+                var valueToInsert = arrayOfNumbers[x];
+                var indexHole = x;
+
+                while(indexHole > 0 && valueToInsert < arrayOfNumbers[indexHole-1]) {
+                    arrayOfNumbers[indexHole] = arrayOfNumbers[indexHole-1];
+                    indexHole = indexHole - 1;
+                }
+
+                arrayOfNumbers[indexHole] = valueToInsert;
+            }
+            return arrayOfNumbers;
+        }
+
+        var start = new Date().getTime();
+        var sortedNumbers = InsertionSort(numbersArray);
+        var end = new Date().getTime();
+
+        console.log("InsertionSort: ", end - start, " ms");
     };
 
     var SelectionSort = function() {}
@@ -182,7 +199,7 @@
     InsertionSortCommand.prototype = new SortCommand();
     InsertionSortCommand.prototype.execute = function() {
         var strategyContext = new StrategyContext(new InsertionSort());
-        strategyContext.executeStrategy(numbers(1000, "random"));
+        strategyContext.executeStrategy(numbers(10000, "random"));
     };
 
     var SelectionSortCommand = function() {};
