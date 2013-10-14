@@ -13,16 +13,14 @@
         }
         
         this.getArrayOfRandomNumbers = function() {
-            console.log("Generating numbers...");
             while(numberOfNumbers) {
-                numbers.push(getRandomInt(0, numberOfNumbers));
+                numbers.push(this.getRandomInt(0, numberOfNumbers));
                 numberOfNumbers--;
             }
-            console.log("Finished generating ", numbers.length, " numbers!");
             return numbers;
         }
 
-        function getRandomInt(min, max) {
+        this.getRandomInt = function(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
@@ -163,11 +161,51 @@
         console.log("InsertionSort: ", end - start, " ms");
     };
 
-    var SelectionSort = function() {}
-    SelectionSort.prototype = new StrategyInterface();
-    SelectionSort.prototype.sort = function(numbersArray, beginning, end, tempArray) {
-        // Implement Algorithm
-        console.log("SelectionSort: ", numbersArray.length);
+    var QuickSortRandomPivot = function() {}
+    QuickSortRandomPivot.prototype = new StrategyInterface();
+    QuickSortRandomPivot.prototype.sort = function(numbersArray, beginning, end, tempArray) {
+        function swapElements(array, indexI, indexJ) {
+            var temp = array[indexI];
+            array[indexI] = array[indexJ];
+            array[indexJ] = temp;
+        }
+
+        function partition(arrayOfNumbers, first, last, pivotIndex) {
+            var pivotValue = arrayOfNumbers[pivotIndex];
+
+            // Move pivot element to the last spot
+            swapElements(arrayOfNumbers, pivotIndex, last);
+
+            var i = first; 
+
+            // One over from the right to exclude the pivot element
+            for(var j = first; j < last; j++ ) {
+                if(arrayOfNumbers[j] < pivotValue) {
+                    swapElements(arrayOfNumbers, i, j);
+                    i++;
+                }
+            }
+
+            // Move element to where it belongs
+            swapElements(arrayOfNumbers, i, last);
+            return i;
+        }
+        
+        function QuickSortRandomPivot(arrayOfNumbers, first, last) {
+            if( first < last ) {
+                var pivotIndex = new Numbers(arrayOfNumbers.length).getRandomInt(first, last);
+                var newPivotIndex = partition(arrayOfNumbers, first, last, pivotIndex);
+                QuickSortRandomPivot(arrayOfNumbers, first, newPivotIndex-1);
+                QuickSortRandomPivot(arrayOfNumbers, newPivotIndex+1, last);
+            }
+            return arrayOfNumbers;
+        }
+
+        var start = new Date().getTime();
+        var sortedNumbers = QuickSortRandomPivot(numbersArray, 0, numbersArray.length-1);
+        var end = new Date().getTime();
+
+        console.log("QuickSortRandomPivot: ", end - start, " ms");
     };
 
     /*
@@ -202,11 +240,11 @@
         strategyContext.executeStrategy(numbers(10000, "random"));
     };
 
-    var SelectionSortCommand = function() {};
-    SelectionSortCommand.prototype = new SortCommand();
-    SelectionSortCommand.prototype.execute = function() {
-        var strategyContext = new StrategyContext(new SelectionSort());
-        strategyContext.executeStrategy(numbers(1000, "random"));
+    var QuickSortRandomPivotCommand = function() {};
+    QuickSortRandomPivotCommand.prototype = new SortCommand();
+    QuickSortRandomPivotCommand.prototype.execute = function() {
+        var strategyContext = new StrategyContext(new QuickSortRandomPivot());
+        strategyContext.executeStrategy(numbers(10000000, "random"));
     };    
 
     /*
@@ -215,7 +253,7 @@
     var sortCommandInvoker = new SortCommandInvoker();
     sortCommandInvoker.storeAndExecute(new MergeSortCommand());
     sortCommandInvoker.storeAndExecute(new InsertionSortCommand());
-    sortCommandInvoker.storeAndExecute(new SelectionSortCommand());
+    sortCommandInvoker.storeAndExecute(new QuickSortRandomPivotCommand());
 
 
 })();
