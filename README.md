@@ -24,3 +24,9 @@ Performance
 * Insertion Sort (1,000,000 numbers):  1535195  ms
 * Quick Sort with a random pivot (10,000,000 numbers):  9958  ms
 
+
+Things to do
+==============
+* Implement FlyWeight pattern for the number generator
+* Implement the Async library to run commands in parallel
+* Implement sorting visualizations
