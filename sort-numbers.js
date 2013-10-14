@@ -71,6 +71,9 @@
         // The subclass will shadow this function thus emulating an interface behaviour
         throw "Must implement algorithm function";
     }       
+    StrategyInterface.prototype.numberWithCommas = function(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
     function StrategyContext(strategy) {
         this.strategy = strategy;    
@@ -133,7 +136,7 @@
         var sortedNumbers = TopDownSplitMerge(numbersArray);
         var end = new Date().getTime();
 
-        console.log("MergeSort: ", end - start, " ms");
+        console.log("MergeSort (",this.numberWithCommas(numbersArray.length),"numbers ): ", end - start, " ms");
     };
 
     var InsertionSort = function() {}
@@ -158,7 +161,7 @@
         var sortedNumbers = InsertionSort(numbersArray);
         var end = new Date().getTime();
 
-        console.log("InsertionSort: ", end - start, " ms");
+        console.log("InsertionSort (",this.numberWithCommas(numbersArray.length),"numbers ): ", end - start, " ms");
     };
 
     var QuickSortRandomPivot = function() {}
@@ -205,7 +208,7 @@
         var sortedNumbers = QuickSortRandomPivot(numbersArray, 0, numbersArray.length-1);
         var end = new Date().getTime();
 
-        console.log("QuickSortRandomPivot: ", end - start, " ms");
+        console.log("QuickSortRandomPivot (",this.numberWithCommas(numbersArray.length),"numbers ): ", end - start, " ms");
     };
 
     /*
