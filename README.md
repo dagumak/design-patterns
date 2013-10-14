@@ -22,5 +22,5 @@ Performance
 ==============
 * Merge Sort (10,000,000 numbers):  16362  ms
 * Insertion Sort (1,000,000 numbers):  1535195  ms
-* QuickSortRandomPivot (10,000,000 numbers):  9958  ms
+* Quick Sort with a random pivot (10,000,000 numbers):  9958  ms
 
