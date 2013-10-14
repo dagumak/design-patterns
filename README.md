@@ -3,6 +3,11 @@ design-patterns
 
 Using JavaScript's prototype inheritance nature to apply sorting algorithms, object oriented programming concepts, and design patterns
 
+
+To Run
+===============
+node sort-numbers.js
+
 Goal
 ===============
 Demonstrate how a few different design patterns can be used with JavaScript.
