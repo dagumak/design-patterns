@@ -25,9 +25,9 @@ Sorting Algorithms:
 
 Performance
 ==============
-* Merge Sort (10,000,000 numbers):  16362  ms
-* Insertion Sort (1,000,000 numbers):  1535195  ms
-* Quick Sort with a random pivot (10,000,000 numbers):  9958  ms
+* Merge Sort (10,000,000 random numbers):  16362  ms
+* Insertion Sort (1,000,000 random numbers):  1535195  ms
+* Quick Sort with a random pivot (10,000,000 random numbers):  9958  ms
 
 
 Things to do
@@ -35,3 +35,4 @@ Things to do
 * Implement FlyWeight pattern for the number generator
 * Implement the Async library to run commands in parallel
 * Implement sorting visualizations
+* Implement other numbers orders (reverse, sorted, a few unique, etc...)
