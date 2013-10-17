@@ -1,9 +1,8 @@
-var Numbers = require('./numbers').Numbers;
-var Strategies = require('./strategies');
-var StrategyContext = Strategies.StrategyContext;
-var MergeSort = Strategies.MergeSort;
-var InsertionSort = Strategies.InsertionSort;
-var QuickSortRandomPivot = Strategies.QuickSortRandomPivot;
+var Numbers = require('./numbers').Numbers
+    , StrategyContext = require('./strategy').StrategyContext
+    , MergeSort = require('./sorting-algorithms/mergesort').MergeSort
+    , InsertionSort = require('./sorting-algorithms/insertionsort').InsertionSort
+    , QuickSortRandomPivot = require('./sorting-algorithms/quicksort').QuickSortRandomPivot;
 
 /*
     Command Pattern: Command Interface
@@ -14,6 +13,28 @@ function CommandInterface() {}
 CommandInterface.prototype.execute = function() {
     throw "Must implement the execute function";
 };
+
+/*
+    Command Pattern: Invoker
+*/
+var SortCommandInvoker = function() {
+    var arrayOfCommands = []
+    this.store = function(command) {
+        if(!(command instanceof CommandInterface)) {
+            throw "This is not a valid command";
+        }
+        arrayOfCommands.push(command);
+    }
+
+    this.execute = function() {
+        arrayOfCommands.forEach(function(command, index, array) {
+            command.execute();
+        })    
+    }
+}
+
+exports.SortCommandInvoker = SortCommandInvoker;
+
 
 /*
     Command Pattern: Concrete Commands
@@ -46,23 +67,6 @@ exports.MergeSortCommand = MergeSortCommand;
 exports.InsertionSortCommand = InsertionSortCommand;
 exports.QuickSortRandomPivotCommand = QuickSortRandomPivotCommand;
 
-/*
-    Command Pattern: Invoker
-*/
-exports.SortCommandInvoker = function() {
-    var arrayOfCommands = []
-    this.store = function(command) {
-        if(!(command instanceof CommandInterface)) {
-            throw "This is not a valid command";
-        }
-        arrayOfCommands.push(command);
-    }
 
-    this.execute = function() {
-        arrayOfCommands.forEach(function(command, index, array) {
-            command.execute();
-        })    
-    }
-}
 
 
