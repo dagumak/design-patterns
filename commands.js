@@ -51,12 +51,17 @@ exports.QuickSortRandomPivotCommand = QuickSortRandomPivotCommand;
 */
 exports.SortCommandInvoker = function() {
     var arrayOfCommands = []
-    this.storeAndExecute = function(command) {
+    this.store = function(command) {
         if(!(command instanceof CommandInterface)) {
             throw "This is not a valid command";
         }
         arrayOfCommands.push(command);
-        command.execute();
+    }
+
+    this.execute = function() {
+        arrayOfCommands.forEach(function(command, index, array) {
+            command.execute();
+        })    
     }
 }
 

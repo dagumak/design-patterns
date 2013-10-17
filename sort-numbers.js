@@ -13,9 +13,10 @@
         Run     
     */
     var sortCommandInvoker = new SortCommandInvoker();
-    sortCommandInvoker.storeAndExecute(new MergeSortCommand());
-    sortCommandInvoker.storeAndExecute(new InsertionSortCommand());
-    sortCommandInvoker.storeAndExecute(new QuickSortRandomPivotCommand());
+    sortCommandInvoker.store(new MergeSortCommand());
+    sortCommandInvoker.store(new InsertionSortCommand());
+    sortCommandInvoker.store(new QuickSortRandomPivotCommand());
+    sortCommandInvoker.execute();
 
 
 })();
