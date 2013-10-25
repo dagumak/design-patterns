@@ -25,6 +25,8 @@ Sorting Algorithms:
 
 Performance
 ==============
+You can read about how I improved my Merge Sort performance here: http://douglasmak.com/dont-get-fancy-with-javascript/
+
 * Merge Sort (10,000,000 random numbers):  16362  ms
 * Insertion Sort (1,000,000 random numbers):  1535195  ms
 * Quick Sort with a random pivot (10,000,000 random numbers):  9958  ms
